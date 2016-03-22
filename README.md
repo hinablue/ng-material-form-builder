@@ -9,7 +9,9 @@ Require
 * sweetalert2
 * angular-material
 
-
+DEMO
+====
+https://hinachen.me/ngformbuilder/
 
 TODO
 ====
