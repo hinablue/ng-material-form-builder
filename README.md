@@ -1,1 +1,31 @@
-# ng-material-form-builder
+# Angular Material Form Builder
+
+Require
+=======
+
+* underscore
+* moment
+* ng-flow
+* sweetalert2
+* angular-material
+
+TODO
+====
+
+- [ ] 錯誤訊息顯示。
+- [ ] 額外的欄位驗證。
+- [ ] 上傳檔案目標修改 (`target`) 。
+- [ ] 上傳檔案額外傳送資料擴充(`query`)。
+- [ ] 上傳檔案錯誤顯示。
+
+
+The MIT License
+===============
+
+Copyright (c) 2016 Hina Chen.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
