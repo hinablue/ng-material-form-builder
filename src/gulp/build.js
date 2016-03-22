@@ -87,22 +87,14 @@ gulp.task('dist', ['build'], function () {
     path.join(conf.paths.tmp, '/serve/**/!(ng-material-form-builder)*.js'),
     path.join(conf.paths.tmp, '/serve/app/ng-material-form-builder.js')
   ])
-    .pipe($.concat('ng-material-form-builder.js'))
-    .pipe(gulp.dest(path.join(conf.paths.build, '/')));
-
-  gulp.src(path.join(conf.paths.build, '/ng-material-form-builder.js'))
     .pipe($.concat('ng-material-form-builder.min.js'))
     .pipe($.uglify({ preserveComments: $.uglifySaveLicense })).on('error', conf.errorHandler('Uglify'))
     .pipe(gulp.dest(path.join(conf.paths.build, '/')));
 
-  gulp.src([
+  return gulp.src([
     path.join(conf.paths.tmp, '/serve/**/!(ng-material-form-builder)*.css'),
     path.join(conf.paths.tmp, '/serve/app/ng-material-form-builder.css'),
   ])
-    .pipe($.concat('ng-material-form-builder.css'))
-    .pipe(gulp.dest(path.join(conf.paths.build, '/')));
-
-  return gulp.src(path.join(conf.paths.build, '/ng-material-form-builder.css'))
     .pipe($.concat('ng-material-form-builder.min.css'))
     .pipe($.minifyCss({ processImport: false }))
     .pipe(gulp.dest(path.join(conf.paths.build, '/')));
