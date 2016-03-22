@@ -5,7 +5,7 @@
     "Hina Chen <hinablue@gmail.com>"
   ],
   "description": "Angular Material Form Builder",
-  "main": [,
+  "main": [
     "./build/ng-material-form-builder.min.js",
     "./build/ng-material-form-builder.min.css"
   ],
