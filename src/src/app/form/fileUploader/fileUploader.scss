@@ -1,0 +1,34 @@
+.input-errors-advanced {
+  .__uploader-drag-and-drop {
+    border: 1px dotted #cecece;
+    margin: {
+      top: 0.3rem;
+      bottom: 0.3rem;
+    }
+    padding: 2rem 1rem;
+  }
+  .hint.uploader {
+    position: relative;
+    bottom: 2px;
+    left: 6px;
+  }
+  .prepare-upload-file {
+    border: 1px solid #ececec;
+    border-radius: 5px;
+    margin-top: 0.2rem;
+    .preview-image {
+      display: block;
+      margin: 0.5rem;
+      padding: 5px;
+      background: #ececec;
+      border-radius: 5px;
+    }
+  }
+}
+
+[draggable-item],
+[droppable-item] {
+  .form-builder-file-uploader {
+    display: none;
+  }
+}

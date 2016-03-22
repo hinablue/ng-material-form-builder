@@ -1,0 +1,37 @@
+.textarea-errors-advanced {
+  .disabled {
+    color: rgba(0, 0, 0, 0.26);
+  }
+  .md-textarea {
+    min-height: 5rem !important;
+  }
+  .md-errors-spacer {
+    color: rgba(0, 0, 0, 0.26);
+  }
+  .hint {
+    /* Position the hint */
+    position: absolute;
+    left: 6px;
+    right: auto;
+    bottom: 12px;
+    /* Copy styles from ng-messages */
+    font-size: 12px;
+    line-height: 14px;
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
+    /* Set our own color */
+    color: grey;
+
+    &.ng-hide,
+    &.ng-enter,
+    &.ng-leave.ng-leave-active {
+      bottom: 26px;
+      opacity: 0;
+    }
+
+    &.ng-leave,
+    &.ng-enter.ng-enter-active {
+      bottom: 7px;
+      opacity: 1;
+    }
+  }
+}

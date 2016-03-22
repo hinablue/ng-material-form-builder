@@ -1,0 +1,164 @@
+<md-dialog aria-label="Modify component dialog">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Modify component</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon aria-label="Close dialog">close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <md-content layout-padding>
+      <md-content>
+        <md-input-container class="md-block">
+          <label>Label</label>
+          <input type="text" ng-model="component.options.label" />
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Placeholder</label>
+          <input type="text" ng-model="component.options.placeholder" />
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Description</label>
+          <input type="text" ng-model="component.options.description" />
+        </md-input-container>
+
+        <md-checkbox ng-model="component.options.required" aria-label="Required">
+          <span class="md-subhead">Required</span>
+        </md-checkbox>
+
+        <md-checkbox ng-model="component.options.enableValidation" aria-label="Enable Validatoin" ng-if="withValidation">
+          <span class="md-subhead">Enable Validation</span>
+        </md-checkbox>
+      </md-content>
+
+      <md-content ng-if="component.options.type === 'fileUploader'">
+        <md-content>
+          <p class="md-subhead">Allow File MimeType</p>
+          <section layout="row" layout-wrap layout-fill layout-align="start center">
+            <md-content flex="10" ng-repeat="(key, type) in component.options.mimeTypes track by $index">
+              <md-checkbox ng-checked="checkFileUploaderEnable(key)" ng-click="enableFileUploaderMimeType(key)" aria-label="{{ key }}">
+                <span ng-bind="key"></span>
+              </md-checkbox>
+            </md-content>
+          </section>
+        </md-content>
+        <br />
+        <md-switch ng-model="component.options.flow.singleFile" ng-true-value="false" ng-false-value="true">
+          <span class="md-subhead">Multiple Files Upload.</span>
+        </md-switch>
+        <br />
+        <md-input-container class="md-block">
+          <label>File Size Limit (MB)</label>
+          <input type="number" ng-model="component.options.fileSizeLimit" />
+        </md-input-container>
+        <md-checkbox ng-model="component.options.enableImagePreview" aria-label="Enable Image Preview">
+          <span class="md-subhead">Enable Image Preview (Only for jpg, gif, png)</span>
+        </md-checkbox>
+        <md-content ng-if="!!component.options.enableImagePreview">
+          <md-input-container class="md-block">
+            <label>Image Preview width</label>
+            <input type="text" ng-model="component.options.preview.width" />
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Image Preview width</label>
+            <input type="text" ng-model="component.options.preview.height" />
+          </md-input-container>
+        </md-content>
+      </md-content>
+
+      <md-content ng-if="component.options.type === 'switch'">
+        <md-input-container class="md-block">
+          <label>Switch On Value</label>
+          <input type="text" ng-model="component.options.on" />
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Switch Off Value</label>
+          <input type="text" ng-model="component.options.off" />
+        </md-input-container>
+      </md-content>
+
+      <md-content ng-if="modifyComponentOptions">
+        <md-content ng-repeat="option in component.options.options track by $index">
+          <md-content layout="row" layout-fill layout-align="start center">
+            <div flex="70">
+              <p class="md-subhead">{{ 'Option ' + ($index + 1) }}</p>
+            </div>
+            <div flex="30" layout="row">
+              <div flex="30">
+                <md-button class="md-icon-button md-accent md-primary" ng-disabled="$first" ng-click="moveComponentOptionsToPrevious($index)" aria-label="Move option to previos">
+                  <md-icon>expand_less</md-icon>
+                </md-button>
+              </div>
+              <div flex="30">
+                <md-button class="md-icon-button md-accent md-primary" ng-disabled="$last" ng-click="moveComponentOptionsToNext($index)" aria-label="Move option to next">
+                  <md-icon>expand_more</md-icon>
+                </md-button>
+              </div>
+              <div flex="30">
+                <md-button class="md-icon-button md-accent md-hue-2" ng-disabled="component.options.options.length <= 1" ng-click="removeComponentOptions($index)" aria-label="Remove radio options">
+                  <md-icon>delete</md-icon>
+                </md-button>
+              </div>
+            </div>
+          </md-content>
+          <md-content layout="row" layout-fill layout-align="start center">
+            <md-input-container flex="40" class="md-block">
+              <label>Name</label>
+              <input type="text" ng-model="option.name" />
+            </md-input-container>
+            <md-input-container flex="30" class="md-block">
+              <label>Value</label>
+              <input type="text" ng-model="option.value" />
+            </md-input-container>
+            <md-radio-group flex="20" ng-model="component.options.default" ng-if="singleDefaultOption === true">
+              <md-radio-button value="{{ option.value }}">Default</md-raido-button>
+            </md-radio-group>
+            <md-content flex="20" ng-if="singleDefaultOption === false">
+              <md-checkbox ng-model="option.checked" aria-label="{{ option.name }}">Default</md-checkbox>
+            </md-content>
+          </md-content>
+        </md-content>
+        <md-button class="md-raised md-primary md-hue-1" ng-click="addComponentOptions()" aria-label="Add new radio options">
+          <span>Add option</span>
+        </md-button>
+      </md-content>
+
+      <md-content ng-if="!!component.options.enableValidation && withValidation && component.options.type === 'datepicker'">
+        <p>Min Date</p>
+        <md-datepicker ng-model="component.options.minDate" aria-label="Enter Date" md-placeholder="Enter Date"></md-datepicker>
+        <p>Max Date</p>
+        <md-datepicker ng-model="component.options.maxDate" md-min-date="component.options.minDate" aria-label="Enter Date" md-placeholder="Enter Date"></md-datepicker>
+      </md-content>
+
+      <md-content ng-if="!!component.options.enableValidation && withValidation && component.options.type !== 'datepicker'">
+        <md-input-container class="md-block">
+          <label>Max Length</label>
+          <input type="text" ng-model="component.options.maxLength" />
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Min Length</label>
+          <input type="text" ng-model="component.options.minLength" />
+        </md-input-container>
+
+        <md-input-container class="md-block" ng-if="component.options.type === 'inputText'">
+          <label>Value Type</label>
+          <md-select ng-model="component.options.pattern">
+            <md-option ng-repeat="opt in component.options.validationOptions" value="{{ opt.rule }}">
+              <span ng-bind="opt.label"></span>
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </md-content>
+    </md-content>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <span flex></span>
+    <md-button class="md-raised" ng-click="cancel()" aria-label="Cancel">Cancel</md-button>
+    <md-button class="md-raised md-accent" ng-click="answer()" aria-label="Save">Save</md-button>
+  </md-dialog-actions>
+</md-dialog>

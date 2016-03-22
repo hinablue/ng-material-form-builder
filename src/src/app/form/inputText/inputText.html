@@ -1,0 +1,25 @@
+<md-content id="{{ vm.targetId }}" layout="row" layout-fill layout-padding layout-align="start start">
+  <md-input-container flex="{{ !!vm.editable ? 75 : 100 }}" class="md-block input-errors-advanced">
+    <label ng-class="{ 'required-field' : vm.options.required, disabled: !!vm.disabled }"><span ng-bind="vm.options.label"></span><span ng-if="vm.options.required">&nbsp;*</span></label>
+    <input type="text" name="{{ vm.targetId }}" ng-model="vm.options.value" ng-required="vm.options.required" ng-maxlength="vm.options.maxLength" ng-minlength="vm.options.minLength" ng-pattern="vm.options.pattern" placeholder="{{ vm.options.placeholder }}" ng-disabled="vm.disabled" />
+    <div class="hint"><span ng-bind="vm.options.description"></span></div>
+    <div ng-messages="$parent[$parent.formName][vm.options.name].$error" role="alert">
+      <div ng-message="required"><span ng-bind="vm.options.validation.required"></span></div>
+      <div ng-message="maxlength"><span ng-bind="vm.options.validation.maxLength"></span></div>
+      <div ng-message="minlength"><span ng-bind="vm.options.validation.minLength"></span></div>
+      <div ng-message="pattern"><span ng-bind="vm.options.validation.pattern"></span></div>
+    </div>
+  </md-input-container>
+  <section flex="25" layout="column" layout-fill layout-align="center center" ng-if="!!vm.editable">
+    <div flex>
+      <md-button class="md-fab md-mini md-primary md-hue-1" ng-click="vm.modifyComponent()" aria-label="Edit field">
+        <md-icon>edit</md-icon>
+      </md-button>
+    </div>
+    <div flex>
+      <md-button class="md-fab md-mini md-accent md-hue-2" ng-click="vm.removeComponent()" aria-label="Remove field">
+        <md-icon>delete</md-icon>
+      </md-button>
+    </div>
+  </section>
+</md-content>

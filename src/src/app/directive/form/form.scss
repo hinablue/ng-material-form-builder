@@ -1,0 +1,13 @@
+#__formBuilderForm {
+  min-height: 10rem;
+  max-height: 100%;
+  padding: 4px;
+  &.over {
+    border: 1px dotted rgba(255, 135, 135, 0.5);
+  }
+  .droppable-copy-drag-item {
+  	user-select: none;
+  	user-drag: element;
+  }
+}
+

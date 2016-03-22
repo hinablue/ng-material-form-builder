@@ -1,0 +1,117 @@
+<!doctype html>
+<html ng-app="demoApp" ng-strict-di>
+  <head>
+    <meta charset="utf-8">
+    <title>Angular Material Form Builder</title>
+    <meta name="description" content="">
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- run `gulp inject` to automatically populate bower styles dependencies -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css({.tmp/serve,src}) styles/ng-material-form-builder.css -->
+    <!-- inject:css -->
+    <!-- css files will be automatically insert here -->
+    <!-- endinject -->
+    <!-- endbuild -->
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <section ng-controller="demoCtrl">
+        <section layout="row" layout-fill layout-padding>
+            <section flex="50">
+                <h4 class="md-title">Form</h4>
+                <ng-form-builder-form ng-model="form"></ng-form-builder-form>
+            </section>
+            <section flex="50">
+                <h4 class="md-title">Components</h4>
+                <ng-form-builder-components></ng-form-builder-components>
+            </section>
+        </section>
+        <section layout-fill layout-padding>
+            <h4 class="md-title">Preview</h4>
+            <form name="demo"
+                action="http://bhuntr.dev"
+                method="POST"
+                enctype="application/x-www-form-urlencoded">
+                <section ng-form-builder-render="renderResponse" ng-model="form"></section>
+            </form>
+            <md-content>
+                <h4 class="md-title">JSON</h4>
+                <p ng-bind="form|json"></p>
+            </md-content>
+        </section>
+    </section>
+
+    <!-- build:js(src) scripts/vendor.js -->
+    <!-- bower:js -->
+    <!-- run `gulp inject` to automatically populate bower script dependencies -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp/serve,.tmp/partials}) scripts/ng-material-form-builder.js -->
+    <!-- inject:js -->
+    <!-- js files will be automatically insert here -->
+    <!-- endinject -->
+
+    <!-- inject:partials -->
+    <!-- angular templates will be automatically converted in js and inserted here -->
+    <!-- endinject -->
+    <!-- endbuild -->
+
+    <script>
+        angular.module('demoApp', ['ngMaterialFormBuilder'])
+            .controller('demoCtrl', ['$scope', '$timeout', '$log', function($scope, $timeout, $log) {
+                $scope.form = [];
+                $scope.renderResponse = {
+                    submitCallback: function(data) {
+                        $log.info('submitCallback', this, data);
+                    },
+                    fileSuccess: function(file, message, chunk) {
+                        $log.info('fileSuccess', this, arguments);
+                    },
+                    fileProgress: function(file, chunk) {
+                        $log.info('fileProgress', this, arguments);
+                    },
+                    filesAdded: function(files, event) {
+                        $log.info('filesAdded', this, arguments);
+                    },
+                    filesSubmitted: function(files, event) {
+                        $log.info('filesSubmitted', this, arguments);
+                    },
+                    fileRemoved: function(file) {
+                        $log.info('fileRemoved', this, arguments);
+                    },
+                    fileRetry: function(file, chunk) {
+                        $log.info('fileRetry', this, arguments);
+                    },
+                    fileError: function(file, message, chunk) {
+                        $log.info('fileError', this, arguments);
+                    },
+                    uploadStart: function() {
+                        $log.info('uploadStart', this);
+                    },
+                    complete: function() {
+                        $log.info('complete', this);
+                    },
+                    progress: function() {
+                        $log.info('progress', this);
+                    },
+                    error: function(message, file, chunk) {
+                        $log.info('error', this, arguments);
+                    }
+                };
+            }]);
+    </script>
+
+  </body>
+</html>

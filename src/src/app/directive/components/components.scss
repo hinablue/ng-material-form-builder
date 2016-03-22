@@ -1,0 +1,25 @@
+.builder-components {
+  &::before,
+  &::after {
+    content: '';
+    max-width: 100%;
+    height: 4rem;
+    border: 1px dashed #cecece;
+    background-color: rgba(255, 135, 135, 0.15);
+    display: none;
+  }
+  &.before::before {
+    display: block;
+  }
+  &.after::after {
+    display: block;
+  }
+}
+.droppable-copy-drag-item.drag {
+  .builder-components {
+    &.before::before,
+    &.after::after {
+      display: none;
+    }
+  }
+}

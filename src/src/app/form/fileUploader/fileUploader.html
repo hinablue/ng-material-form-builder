@@ -1,0 +1,38 @@
+<md-content id="{{ vm.targetId }}" layout="row" flow-prevent-drop layout-fill layout-padding layout-align="start start">
+  <md-content flex="{{ !!vm.editable ? 75 : 100 }}" class="md-block input-errors-advanced" flow-init flow-object="vm.uploaderFlow">
+    <p ng-class="{ 'required-field' : vm.options.required, disabled: !!vm.disabled }"><span ng-bind="vm.options.label"></span><span ng-if="vm.options.required">&nbsp;*</span></p>
+    <md-list class="prepare-upload-files" ng-if="vm.uploaderFlow.files.length > 0">
+      <md-list-item class="prepare-upload-file" ng-repeat="file in vm.uploaderFlow.files track by $index">
+        <img class="preview-image md-block"
+          flow-img="file"
+          ng-if="file.file.type.substr(0, 5) === 'image' && vm.options.enableImagePreview && ['jpg','peg','png','gif'].indexOf(file.file.type.substr(-3)) > -1"
+          ng-style="{ width: vm.options.preview.width, height: vm.options.preview.height }"
+          alt="Preview Image" />
+        <md-content class="md-block">
+          <span ng-bind="file.name"></span>
+          <md-icon class="md-secondary" ng-click="vm.uploaderFlow.removeFile(file)" aria-label="vm._('Remove file button.')">close</md-icon>
+        </md-content>
+      </md-list-item>
+    </md-list>
+    <md-content class="__uploader-drag-and-drop" id="flow-{{ !!vm.editable || !!vm.disabled ? '' : vm.targetId }}">
+      <span class="disabled">Drag and drop files or click here to upload.</span>
+    </md-content>
+    <div class="hint uploader"><span ng-bind="vm.options.description"></span></div>
+    <div ng-messages="$parent[$parent.formName][vm.options.name].$error" role="alert">
+      <div ng-message="vaild"><span ng-bind="vm.options.validation.required"></span></div>
+      <div ng-message="required"><span ng-bind="vm.options.validation.required"></span></div>
+    </div>
+  </md-content>
+  <section flex="25" layout="column" layout-fill layout-align="center center" ng-if="!!vm.editable">
+    <div flex>
+      <md-button class="md-fab md-mini md-primary md-hue-1" ng-click="vm.modifyComponent()" aria-label="Edit field">
+        <md-icon>edit</md-icon>
+      </md-button>
+    </div>
+    <div flex>
+      <md-button class="md-fab md-mini md-accent md-hue-2" ng-click="vm.removeComponent()" aria-label="Remove field">
+        <md-icon>delete</md-icon>
+      </md-button>
+    </div>
+  </section>
+</md-content>

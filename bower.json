@@ -1,0 +1,33 @@
+{
+  "name": "ng-material-form-builder",
+  "version": "1.0.0",
+  "authors": [
+    "Hina Chen <hinablue@gmail.com>"
+  ],
+  "description": "Angular Material Form Builder",
+  "main": [,
+    "./build/ng-material-form-builder.min.js",
+    "./build/ng-material-form-builder.min.css"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.9",
+    "underscore": "~1.8.3",
+    "moment": "~2.10.6",
+    "ng-flow": "~2.7.1",
+    "sweetalert2": "~0.3.4",
+    "angular-material": "~1.0.5",
+    "angular-aria": "~1.4.9",
+    "angular-messages": "~1.4.9",
+    "angular-sanitize": "~1.4.9",
+    "jquery": "~2.2.0"
+  }
+}
