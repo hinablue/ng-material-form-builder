@@ -7,7 +7,7 @@ export function formDirective() {
     transclude: true,
     link: function(scope, element, attrs, ctrl, transclude) {
       let cloneElement, cloneScope;
-      scope.$watch(attrs, (newAttrs) => {
+      scope.$watch(attrs, () => {
         if (angular.isDefined(cloneElement)) {
           cloneElement.remove();
           cloneElement = undefined;

@@ -27,7 +27,6 @@ class draggableController {
         e.dataTransfer.setData('text/plain', this.target);
         e.target.classList.add('drag');
         e.target.style.opacity = 0.99;
-
         return false;
       },
       false
@@ -38,16 +37,14 @@ class draggableController {
         e.target.classList.remove('drag');
         e.target.style.opacity = 1;
         angular.element('.builder-components').removeClass('after before');
-
         return false;
       },
       false
     );
     el.addEventListener(
       'dragleave',
-      (e) => {
+      () => {
         angular.element('.builder-components').removeClass('after before');
-
         return false;
       },
       false

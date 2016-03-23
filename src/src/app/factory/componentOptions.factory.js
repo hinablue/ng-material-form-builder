@@ -77,7 +77,6 @@ export function componentOptionsFactory () {
         chunkRetryInterval: undefined,
         progressCallbacksInterval: 500,
         speedSmoothingFactor: 0.02,
-        progressCallbacksInterval: 0.1,
         successStatuses: [200,201,202],
         permanentErrors: [404,415,500,501]
       },

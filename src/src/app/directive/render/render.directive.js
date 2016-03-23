@@ -7,7 +7,7 @@ export function renderDirective() {
     transclude: true,
     link: function(scope, element, attrs, ctrl, transclude) {
       let cloneElement, cloneScope;
-      scope.$watch(attrs, (newAttrs) => {
+      scope.$watch(attrs, () => {
         if (angular.isDefined(cloneElement)) {
           cloneElement.remove();
           cloneElement = undefined;
@@ -15,7 +15,7 @@ export function renderDirective() {
           cloneScope = undefined;
         }
         cloneScope = scope.$new();
-        cloneScope[attrs.name] = ctrl.$$parentForm;
+        // cloneScope[attrs.name] = ctrl.$$parentForm;
         cloneScope.formName = attrs.name;
         cloneScope.render.formAction = attrs.action;
         cloneScope.render.formMethod = attrs.method;
@@ -54,7 +54,7 @@ class renderController {
     this.$mdDialog = $mdDialog;
     this.$compile = $compile;
 
-    $scope.$watch('render.components', (newFormObj, oldFormObj) => {
+    $scope.$watch('render.components', (newFormObj) => {
       $element.html('');
 
       this.components = angular.copy(newFormObj);
@@ -62,12 +62,8 @@ class renderController {
       if (this.components.length > 0) {
         let template = '', key;
         let scope = $scope.$new(true, $scope.$parent);
-        _.each(this.components, (component, index) => {
-          let existsComponent = -1;
-          if (oldFormObj.length > 0) {
-            existsComponent = _.findIndex(oldFormObj, { id: component.id });
-          }
 
+        _.each(this.components, (component, index) => {
           switch (component.options.type) {
             case 'inputText':
               key = 'input-text';
@@ -84,6 +80,19 @@ class renderController {
                 angular.extend(component.options.flow, {
                   fileParameterName: 'file'
                 });
+              }
+
+
+              let allowdMimeTypeMapping = [];
+              if (component.options.allowedMimeTypes.indexOf('all') === -1) {
+                let allowdMimeTypeMapping = _.reduce(component.options.mimeTypes, (mime, types, key) => {
+                  if (component.options.allowedMimeTypes.indexOf(key) > -1) {
+                    return mime.concat(types);
+                  } else {
+                    return mime;
+                  }
+                }, []);
+                allowdMimeTypeMapping = _.uniq(allowdMimeTypeMapping);
               }
               uploader[component.id] = {
                 deferred: $q.defer(),
@@ -219,12 +228,13 @@ class renderController {
           uploaderDeferred: uploaderDeferred,
           $q: $q,
           $log: $log,
-          $timeout: $timeout
+          $timeout: $timeout,
+          _: _
         };
         $compile(template)(scope);
 
         $timeout(() => {
-          _.each(this.components, (component, index) => {
+          _.each(this.components, (component) => {
             if (component.options.type === 'fileUploader') {
               let flowTarget = $element.find('#flow-'+component.id);
               if (flowTarget.length > 0) {
@@ -242,11 +252,11 @@ class renderController {
   submitted () {
     if (angular.isFunction(this.renderResponse.submitCallback)) {
       let response = {};
-      _.each(this.components, (component) => {
+      this._.each(this.components, (component) => {
         if (angular.isUndefined(response[component.id])) {
           if (component.options.type === 'inputCheckbox') {
             response[component.id] = [];
-            _.each(component.options.options, (option) => {
+            this._.each(component.options.options, (option) => {
               if (true === option.checked) {
                 response[component.id].push(option.value);
               }
@@ -267,13 +277,15 @@ class renderController {
       });
 
       this.$q.all(this.uploaderDeferred).then((res) => {
+        this.$log.info(res);
         this.renderResponse.submitCallback(response);
       }, (err) => {
+        this.$log.info(err);
         this.renderResponse.submitCallback(response);
       });
 
       this.$timeout(() => {
-        _.each(this.uploader, (obj) => {
+        this._.each(this.uploader, (obj) => {
           if (obj.flow.files.length > 0) {
             obj.flow.upload();
           } else {

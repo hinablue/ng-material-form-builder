@@ -1,4 +1,4 @@
-/* global _: false, moment: false, swal: false */
+/* global _: false, moment: false, swal: false, Flow: false */
 
 import { config } from './config';
 import { runBlock } from './runBlock';

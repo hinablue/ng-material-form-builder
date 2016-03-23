@@ -7,7 +7,7 @@ export function fileUploaderDirective() {
     transclude: true,
     link: function(scope, element, attrs, _, transclude) {
       let cloneElement, cloneScope;
-      scope.$watch(attrs, (newAttrs) => {
+      scope.$watch(attrs, () => {
         if (angular.isDefined(cloneElement)) {
           cloneElement.remove();
           cloneElement = undefined;
@@ -60,18 +60,6 @@ class fileUploaderController {
     }
 
     this.options = options;
-
-    let allowdMimeTypeMapping = [];
-    if (options.allowedMimeTypes.indexOf('all') === -1) {
-      let allowdMimeTypeMapping = _.reduce(options.mimeTypes, (mime, types, key) => {
-        if (options.allowedMimeTypes.indexOf(key) > -1) {
-          return mime.concat(types);
-        } else {
-          return mime;
-        }
-      }, []);
-      allowdMimeTypeMapping = _.uniq(allowdMimeTypeMapping);
-    }
   }
 
   modifyComponent () {

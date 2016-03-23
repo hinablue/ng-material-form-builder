@@ -7,7 +7,7 @@ export function inputRadioDirective() {
     transclude: true,
     link: function(scope, element, attrs, _, transclude) {
       let cloneElement, cloneScope;
-      scope.$watch(attrs, (newAttrs) => {
+      scope.$watch(attrs, () => {
         if (angular.isDefined(cloneElement)) {
           cloneElement.remove();
           cloneElement = undefined;
