@@ -153,20 +153,9 @@ class formController {
           'dragend',
           (e) => {
             e.target.classList.remove('drag');
+            e.target.style.opacity = 1;
             angular.element('.builder-components').removeClass('after before');
-            e.target.style.opacity = 1;
-
-            $rootScope.$emit('ngMaterialFormBuilder::dragEnd', {});
-
-            return false;
-          },
-          false
-        );
-        el.addEventListener(
-          'dragleave',
-          (e) => {
-            e.target.classList.remove('drag');
-            e.target.style.opacity = 1;
+            angular.element('#__formBuilderForm').removeClass('over');
 
             return false;
           },
@@ -179,15 +168,15 @@ class formController {
         let target = angular.element('.builder-components[target-id="\''+direction.key+'\'"]');
         if (direction.direction === 'before') {
           if (component.substr(0, 5) === 'copy-') {
-            template.after(target.parent());
-            this.moveToPrevious(component.substr(5));
+            target.parent().before(template);
+            this.swapComponent(direction.key, component.substr(5));
           } else {
             template.insertBefore(target.parent());
           }
         } else {
           if (component.substr(0, 5) === 'copy-') {
-            template.before(target.parent());
-            this.moveToNext(component.substr(5));
+            target.parent().after(template);
+            this.swapComponent(component.substr(5), direction.key);
           } else {
             template.insertAfter(target.parent());
           }
@@ -349,11 +338,6 @@ class formController {
     })
   }
 
-  // Magic for swap array to value by index.
-  identity (x) {
-    return x;
-  }
-
   findComponent (id) {
     return this._.find(this.components, (component) => {
       return component.id === id;
@@ -362,39 +346,16 @@ class formController {
   findComponentIndex (id) {
     return this._.findIndex(this.components, { id: id });
   }
-  moveComponentPosition (direction, index, id) {
-    if (direction === 'previous') {
-      this.components[(index - 1)] = this.identity(
-        this.components[index],
-        this.components[index] = this.components[(index - 1)]
-      );
-    } else {
-      this.components[index] = this.identity(
-        this.components[(index + 1)],
-        this.components[(index + 1)] = this.components[index]
-      );
-    }
+  swapComponent (keyA, keyB) {
+    this.$log.info(keyA, keyB);
+    let indexA = this.findComponentIndex(keyA), indexB = this.findComponentIndex(keyB);
+    let temp = angular.copy(this.components[indexA]);
+    this.components[indexA] = angular.copy(this.components[indexB]);
+    this.components[indexB] = temp;
     this.$timeout(() => {
       this.$scope.$digest();
     });
   }
-
-  moveToPrevious (id) {
-    let index = this.findComponentIndex(id);
-    if (index === 0) {
-      return false;
-    }
-    this.moveComponentPosition('previous', index, id);
-  }
-
-  moveToNext (id) {
-    let index = this.findComponentIndex(id);
-    if (index === this.components.length - 1) {
-      return false;
-    }
-    this.moveComponentPosition('next', index, id);
-  }
-
   guid () {
     let s4 = () => {
       return Math.floor((1 + Math.random()) * 0x10000)

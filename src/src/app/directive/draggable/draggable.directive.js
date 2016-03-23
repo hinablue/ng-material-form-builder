@@ -15,7 +15,7 @@ export function draggableItemDirective() {
 }
 
 class draggableController {
-  constructor($scope, $rootScope, $element) {
+  constructor($scope, $log, $element) {
     'ngInject';
 
     let el = $element[0];
@@ -38,7 +38,6 @@ class draggableController {
         e.target.classList.remove('drag');
         e.target.style.opacity = 1;
         angular.element('.builder-components').removeClass('after before');
-        $rootScope.$emit('ngMaterialFormBuilder::dragEnd', {});
 
         return false;
       },
@@ -47,8 +46,6 @@ class draggableController {
     el.addEventListener(
       'dragleave',
       (e) => {
-        e.target.classList.remove('drag');
-        e.target.style.opacity = 1;
         angular.element('.builder-components').removeClass('after before');
 
         return false;

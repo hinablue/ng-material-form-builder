@@ -15,22 +15,16 @@ export function droppableItemDirective() {
 }
 
 class droppableController {
-  constructor(_, $rootScope, $scope, $document, $compile, $element, $log) {
+  constructor(_, $scope, $document, $compile, $element, $log) {
     'ngInject';
 
     this.$log = $log;
     this.$scope = $scope;
-    this.$rootScope = $rootScope;
     this.$compile = $compile;
     this.position = {};
 
     let zoneOffsetTop = angular.element('#__droppableZone')[0].offsetTop;
     let form = angular.element('#__formBuilderForm');
-
-    this.dragEnd = $rootScope.$on('ngMaterialFormBuilder::dragEnd', () => {
-      $log.info('dragEnd');
-      form.removeClass('over');
-    });
 
     let el = $element[0], dragOverItem;
     let elOffsetTop = el.offsetTop;
@@ -77,6 +71,7 @@ class droppableController {
             };
           }
         }
+
         if (angular.isDefined(e.preventDefault)) {
           e.preventDefault();
         }
@@ -87,6 +82,7 @@ class droppableController {
       'dragenter',
       (e) => {
         form.addClass('over');
+
         if (angular.isDefined(e.preventDefault)) {
           e.preventDefault();
         }
@@ -96,6 +92,12 @@ class droppableController {
     el.addEventListener(
       'drop',
       (e) => {
+        if (angular.isDefined(e.stopPropagation)) {
+          e.stopPropagation();
+        }
+        if (angular.isDefined(e.preventDefault)) {
+          e.preventDefault();
+        }
         form.removeClass('over');
         angular.element('.builder-components').removeClass('after before');
         angular.element('.droppable-copy-drag-item').removeClass('drag');
@@ -105,9 +107,6 @@ class droppableController {
             this.drop(e.dataTransfer.getData('text/plain'), this.position);
           }
         });
-        if (angular.isDefined(e.stopPropagation)) {
-          e.stopPropagation();
-        }
       },
       false
     );
