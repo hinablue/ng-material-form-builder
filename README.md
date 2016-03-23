@@ -21,8 +21,15 @@ TODO
 - [ ] 上傳檔案目標修改 (`target`) 。
 - [ ] 上傳檔案額外傳送資料擴充(`query`)。
 - [ ] 上傳檔案錯誤顯示。
-- [ ] Firefox DnD Bug.
-- [ ] Safari DnD Bug.
+- [x] [Fixed] Firefox DnD Bug.
+- [x] [Fixed] Safari DnD Bug.
+- [x] [Fixed] Windows 10 Edge Bug.
+
+Known Issue
+===========
+
+Native Drag and Drop not working in Windows7 IE11.
+
 
 The MIT License
 ===============
