@@ -15,7 +15,7 @@ export function droppableItemDirective() {
 }
 
 class droppableController {
-  constructor(_, $rootScope, $scope, $compile, $element, $log) {
+  constructor(_, $rootScope, $scope, $document, $compile, $element, $log) {
     'ngInject';
 
     this.$log = $log;
@@ -32,7 +32,7 @@ class droppableController {
       form.removeClass('over');
     });
 
-    let el = $element[0];
+    let el = $element[0], dragOverItem;
     let elOffsetTop = el.offsetTop;
 
     el.droppable = true;
@@ -41,14 +41,21 @@ class droppableController {
       (e) => {
         e.dataTransfer.dropEffect = 'copyMove';
 
-        let item = _.find(e.path, (item) => {
-          return /^(BUILDER\-)/gi.test(item.tagName) && item.id !== '__droppableZone';
-        });
-        if (angular.isDefined(item)) {
-          let target = angular.element(item), components = angular.element('.builder-components');
+        // patch: Some browsers event does not have `event.path`, so use e.target.
+        let node = e.target;
+        while (node !== form[0] && angular.isDefined(node)) {
+          if (/^(BUILDER\-)/gi.test(node.tagName) && node.id !== '__droppableZone') {
+            dragOverItem = node;
+            break;
+          } else {
+            node = node.parentNode;
+          }
+        }
 
+        if (angular.isDefined(dragOverItem) && dragOverItem !== e.target) {
+          let target = angular.element(dragOverItem), components = angular.element('.builder-components');
           components.removeClass('after before');
-          if (e.clientY >= zoneOffsetTop + elOffsetTop + item.offsetTop) {
+          if (e.clientY >= zoneOffsetTop + elOffsetTop + dragOverItem.offsetTop) {
             if (false === target.hasClass('after')) {
               target.addClass('after');
             }
@@ -56,7 +63,7 @@ class droppableController {
             components.removeClass('before');
             this.position = {
               direction: 'after',
-              key: item.attributes.getNamedItem('target-id').value.replace(/[']+/gi, '')
+              key: dragOverItem.attributes.getNamedItem('target-id').value.replace(/[']+/gi, '')
             };
           } else {
             if (false === target.hasClass('before')) {
@@ -66,7 +73,7 @@ class droppableController {
             components.removeClass('after');
             this.position = {
               direction: 'before',
-              key: item.attributes.getNamedItem('target-id').value.replace(/[']+/gi, '')
+              key: dragOverItem.attributes.getNamedItem('target-id').value.replace(/[']+/gi, '')
             };
           }
         }
